@@ -1,0 +1,25 @@
+body {
+  padding: 2rem;
+}
+
+#canvas-container {
+  position: relative;
+  background-color: red;
+}
+
+canvas {
+  border: 1px solid black;
+}
+
+#object-layer,
+#overlay-layer {
+  position: absolute;
+}
+
+#object-layer {
+  background-color: black;
+}
+
+#overlay-layer {
+  /* background-color: green; */
+}
