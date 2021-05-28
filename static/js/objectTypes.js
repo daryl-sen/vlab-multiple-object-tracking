@@ -1,12 +1,36 @@
-class RectBlock {
-  constructor(width, height, color, xPos, yPos) {
+class OnscreenObj {
+  constructor(width, height, color, xPos, yPos, velocity) {
     this.width = width;
     this.height = height;
     this.color = color;
     this.x = xPos;
     this.y = yPos;
+    this.originalCoords = { x: xPos, y: yPos };
+    this.velocity = velocity || { x: 0, y: 0 };
   }
 
+  translate(x, y) {
+    this.x += x;
+    this.y += y;
+  }
+
+  reposition(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  resetPosition() {
+    this.x = this.originalCoords.x;
+    this.y = this.originalCoords.y;
+  }
+
+  static clearAll(ctx) {
+    const { width, height } = ctx.canvas;
+    ctx.clearRect(0, 0, width, height);
+  }
+}
+
+class RectBlock extends OnscreenObj {
   draw(ctx) {
     ctx.save();
     ctx.fillStyle = this.color;
@@ -14,8 +38,15 @@ class RectBlock {
     ctx.restore();
   }
 
-  translate(x, y) {
-    this.x += x;
-    this.y += y;
+  checkCollision(ctx, additionalObjs) {
+    if (
+      this.x > ctx.canvas.width ||
+      this.x + this.width > ctx.canvas.width ||
+      this.y > ctx.canvas.height ||
+      this.y + this.height > ctx.canvas.height
+    ) {
+      return true;
+    }
+    return false;
   }
 }
