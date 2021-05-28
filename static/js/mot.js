@@ -31,13 +31,13 @@ if (config.showFixationCross) {
   c2.stroke();
 }
 
-const obj1 = new RectBlock(1, 55, 55, "#fff", 400, 50, { x: 0, y: 2 });
-const obj2 = new RectBlock(2, 55, 55, "red", 400, 700, { x: 0, y: -2 });
-const obj3 = new RectBlock(3, 55, 55, "green", 700, 50, { x: -2, y: 0 });
-const obj4 = new RectBlock(4, 55, 55, "blue", 50, 50, { x: 2, y: 0 });
-const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: 3, y: 3 });
+const obj1 = new RectBlock(1, 55, 55, "#fff", 400, 50, { x: 1, y: 2 });
+const obj2 = new RectBlock(2, 55, 55, "red", 400, 700, { x: 3, y: -2 });
+const obj3 = new RectBlock(3, 55, 55, "green", 700, 50, { x: -2, y: 1 });
+const obj4 = new RectBlock(4, 55, 55, "blue", 50, 50, { x: 2, y: 2 });
+const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: -1, y: -2 });
 
-const onscreenObjects = [obj1, obj2, obj3, obj4];
+const onscreenObjects = [obj1, obj2, obj3, obj4, obj5];
 
 const animate = () => {
   OnscreenObj.clearAll(c1);

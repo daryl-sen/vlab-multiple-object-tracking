@@ -6,7 +6,7 @@ class OnscreenObj {
     this.color = color;
     this.x = xPos;
     this.y = yPos;
-    this.midPoint = { x: xPos + width / 2, y: yPos + height / 2 };
+    // this.midPoint = { x: xPos + width / 2, y: yPos + height / 2 };
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
@@ -19,6 +19,10 @@ class OnscreenObj {
 
   get yEnd() {
     return this.y + this.height;
+  }
+
+  get midPoint() {
+    return { x: this.x + this.width / 2, y: this.y + this.height / 2 };
   }
 
   translate(x, y) {
@@ -38,7 +42,12 @@ class OnscreenObj {
 
   reflectVelocity() {
     if (this.collisionAxis && !this.bouncing) {
-      this.velocity[this.collisionAxis] = -this.velocity[this.collisionAxis];
+      if (this.collisionAxis === "both") {
+        this.velocity.x = -this.velocity.x;
+        this.velocity.y = -this.velocity.y;
+      } else {
+        this.velocity[this.collisionAxis] = -this.velocity[this.collisionAxis];
+      }
       this.collisionAxis = null;
       this.bouncing = true;
     }
@@ -55,10 +64,10 @@ class OnscreenObj {
   }
 
   calculateBearing(targetCoords) {
-    return (
+    const bearing =
       (Math.atan2(targetCoords.x - this.x, targetCoords.y - this.y) * 180) /
-      Math.PI
-    );
+      Math.PI;
+    return bearing;
   }
 }
 
@@ -77,6 +86,10 @@ class RectBlock extends OnscreenObj {
   determineDirection(targetCoords) {
     // only needs vertical or horizontal
     const bearing = Math.abs(this.calculateBearing(targetCoords));
+    if (this.id === 4) {
+      console.log(bearing);
+      console.log(this.id, targetCoords, { x: this.x, y: this.y });
+    }
     if (bearing < 45 || (bearing > 135 && bearing <= 180)) {
       return "y";
     } else if (bearing > 45 && bearing < 135) {
@@ -119,14 +132,14 @@ class RectBlock extends OnscreenObj {
           this.xEnd < zone.x.start
         ) {
           // no collision
-          this.bouncing = false;
+          // this.bouncing = false;
         } else {
+          if (this.id == 1) {
+            console.log("collision!");
+            console.log(this.determineDirection(zone.midPoint));
+          }
           this.collisionAxis = this.determineDirection(zone.midPoint);
           return true;
-          // if (this.id == 4) {
-          //   console.log("collision!");
-          //   console.log(this.determineDirection(zone.midPoint));
-          // }
         }
       }
     }
