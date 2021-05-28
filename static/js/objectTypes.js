@@ -1,5 +1,6 @@
 class OnscreenObj {
-  constructor(width, height, color, xPos, yPos, velocity) {
+  constructor(id, width, height, color, xPos, yPos, velocity) {
+    this.id = id;
     this.width = width;
     this.height = height;
     this.color = color;
@@ -32,6 +33,11 @@ class OnscreenObj {
     }
   }
 
+  displayCoordinates(xContainerID, yContainerID) {
+    document.getElementById(xContainerID).innerHTML = this.x;
+    document.getElementById(yContainerID).innerHTML = this.y;
+  }
+
   static clearAll(ctx) {
     const { width, height } = ctx.canvas;
     ctx.clearRect(0, 0, width, height);
@@ -54,7 +60,8 @@ class RectBlock extends OnscreenObj {
     ) {
       this.collisionAxis = "x";
       return true;
-    } else if (
+    }
+    if (
       this.y > ctx.canvas.height ||
       this.y + this.height > ctx.canvas.height ||
       this.y < 0
