@@ -86,19 +86,11 @@ class RectBlock extends OnscreenObj {
   determineDirection(targetCoords) {
     // only needs vertical or horizontal
     const bearing = Math.abs(this.calculateBearing(targetCoords));
-    if (this.id === 4) {
-      console.log(bearing);
-      console.log(this.velocity);
-      console.log(this.id, targetCoords, this.midPoint);
-    }
     if (bearing < 45 || (bearing > 135 && bearing <= 180)) {
-      console.log("y");
       return "y";
     } else if (bearing > 45 && bearing < 135) {
-      console.log("x");
       return "x";
     } else if (bearing === 45 || bearing === 135) {
-      console.log("both");
       return "both";
     }
   }
@@ -139,9 +131,6 @@ class RectBlock extends OnscreenObj {
           // this.bouncing = false;
         } else {
           this.collisionAxis = this.determineDirection(zone.midPoint);
-          // if (this.id == 4) {
-          //   console.log(this.collisionAxis);
-          // }
           return true;
         }
       }
