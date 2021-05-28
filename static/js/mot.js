@@ -32,12 +32,12 @@ if (config.showFixationCross) {
 }
 
 const obj1 = new RectBlock(1, 55, 55, "#fff", 300, 50, { x: 3, y: 3 });
-const obj2 = new RectBlock(2, 55, 55, "red", 250, 200, { x: -1, y: -1 });
-const obj3 = new RectBlock(3, 55, 55, "green", 400, 200, { x: 3, y: -1 });
+const obj2 = new RectBlock(2, 55, 55, "red", 250, 200, { x: 3, y: 2 });
+const obj3 = new RectBlock(3, 55, 55, "green", 400, 200, { x: -2, y: -1 });
 const obj4 = new RectBlock(4, 55, 55, "blue", 550, 200, { x: 3, y: -1 });
 const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: 3, y: 3 });
 
-const onscreenObjects = [obj1, obj2, obj3, obj4, obj5];
+const onscreenObjects = [obj1, obj2, obj3];
 
 const animate = () => {
   OnscreenObj.clearAll(c1);
@@ -54,12 +54,12 @@ const animate = () => {
       y: { start: obj.y, end: obj.yEnd },
     };
   }
+  // console.log(collisionZones);
+  debugger;
 
   // draw all coordinates
   for (const obj of onscreenObjects) {
-    const exclusiveZones = { ...collisionZones };
-    delete exclusiveZones[obj.id];
-    if (obj.checkCollision(c1, exclusiveZones)) {
+    if (obj.checkCollision(c1, collisionZones)) {
       obj.reflectVelocity();
     }
     obj.draw(c1);

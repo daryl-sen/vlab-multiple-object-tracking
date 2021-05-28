@@ -81,19 +81,36 @@ class RectBlock extends OnscreenObj {
 
     if (collisionZones) {
       for (const zoneID in collisionZones) {
+        if (this.id == zoneID) {
+          continue;
+        }
+
         const zone = collisionZones[zoneID];
 
-        const xInRange =
-          (this.x >= zone.x.start && this.x <= zone.x.end) ||
-          (this.xEnd >= zone.x.start && this.xEnd <= zone.x.end);
-        const yInRange =
-          (this.y >= zone.y.start && this.y <= zone.y.end) ||
-          (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
-
-        if (xInRange && yInRange) {
-          console.log("Collision!", this.id, zoneID);
+        if (
+          this.y > zone.y.end ||
+          this.xEnd < zone.x.start ||
+          this.yEnd < zone.y.start ||
+          this.x > zone.x.end
+        ) {
+        } else {
+          if (this.id === 1) {
+            console.log("Collision with:", zoneID);
+          }
           return true;
         }
+
+        // const xInRange =
+        //   (this.x >= zone.x.start && this.x <= zone.x.end) ||
+        //   (this.xEnd >= zone.x.start && this.xEnd <= zone.x.end);
+        // const yInRange =
+        //   (this.y >= zone.y.start && this.y <= zone.y.end) ||
+        //   (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
+
+        // if (xInRange && yInRange) {
+        //   console.log("Collision!", this.id, zoneID);
+        //   return true;
+        // }
       }
     }
     return false;
