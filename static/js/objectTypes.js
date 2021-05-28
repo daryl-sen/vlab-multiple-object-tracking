@@ -6,11 +6,17 @@ class OnscreenObj {
     this.color = color;
     this.x = xPos;
     this.y = yPos;
-    this.xEnd = xPos + width;
-    this.yEnd = yPos + height;
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
+  }
+
+  get xEnd() {
+    return this.x + this.width;
+  }
+
+  get yEnd() {
+    return this.y + this.height;
   }
 
   translate(x, y) {
@@ -57,7 +63,7 @@ class RectBlock extends OnscreenObj {
   checkCollision(ctx, additionalObjs) {
     if (
       this.x > ctx.canvas.width ||
-      this.x + this.width > ctx.canvas.width ||
+      this.xEnd > ctx.canvas.width ||
       this.x < 0
     ) {
       this.collisionAxis = "x";
@@ -65,7 +71,7 @@ class RectBlock extends OnscreenObj {
     }
     if (
       this.y > ctx.canvas.height ||
-      this.y + this.height > ctx.canvas.height ||
+      this.yEnd > ctx.canvas.height ||
       this.y < 0
     ) {
       this.collisionAxis = "y";
