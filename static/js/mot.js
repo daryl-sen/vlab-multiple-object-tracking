@@ -11,7 +11,7 @@ const animate = () => {
   c1.save();
   for (const obj of onscreenObjects) {
     if (obj.checkCollision(c1)) {
-      obj.resetPosition();
+      obj.reflectVelocity();
     }
     obj.translate(obj.velocity.x, obj.velocity.y);
     obj.draw(c1);
