@@ -47,12 +47,17 @@ class RectBlock extends OnscreenObj {
   }
 
   checkCollision(ctx, additionalObjs) {
-    if (this.x > ctx.canvas.width || this.x + this.width > ctx.canvas.width) {
+    if (
+      this.x > ctx.canvas.width ||
+      this.x + this.width > ctx.canvas.width ||
+      this.x < 0
+    ) {
       this.collisionAxis = "x";
       return true;
     } else if (
       this.y > ctx.canvas.height ||
-      this.y + this.height > ctx.canvas.height
+      this.y + this.height > ctx.canvas.height ||
+      this.y < 0
     ) {
       this.collisionAxis = "y";
       return true;
