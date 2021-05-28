@@ -9,6 +9,7 @@ class OnscreenObj {
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
+    this.bouncing = { x: false, y: false };
   }
 
   get xEnd() {
@@ -60,7 +61,7 @@ class RectBlock extends OnscreenObj {
     ctx.restore();
   }
 
-  checkCollision(ctx, additionalObjs) {
+  checkCollision(ctx, collisionZones) {
     if (
       this.x > ctx.canvas.width ||
       this.xEnd > ctx.canvas.width ||
@@ -76,6 +77,42 @@ class RectBlock extends OnscreenObj {
     ) {
       this.collisionAxis = "y";
       return true;
+    }
+
+    if (collisionZones) {
+      for (const zone of collisionZones.x) {
+        if (
+          (this.x > zone.start && this.x < zone.end) ||
+          (this.xEnd > zone.start && this.xEnd < zone.end)
+        ) {
+          if (this.bouncing.x) {
+            // prevent rapidly switching directions during collision
+            return false;
+          }
+          this.bouncing.x = true;
+          this.collisionAxis = "x";
+          return true;
+        } else {
+          this.bouncing.x = false;
+        }
+      }
+
+      for (const zone of collisionZones.y) {
+        if (
+          (this.y > zone.start && this.y < zone.end) ||
+          (this.yEnd > zone.start && this.yEnd < zone.end)
+        ) {
+          if (this.bouncing.y) {
+            // prevent rapidly switching directions during collision
+            return false;
+          }
+          this.bouncing.y = true;
+          this.collisionAxis = "y";
+          return true;
+        } else {
+          this.bouncing.y = false;
+        }
+      }
     }
     return false;
   }
