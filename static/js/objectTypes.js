@@ -9,7 +9,7 @@ class OnscreenObj {
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
-    this.bouncing = { x: false, y: false };
+    this.bouncing = false;
   }
 
   get xEnd() {
@@ -80,39 +80,50 @@ class RectBlock extends OnscreenObj {
     }
 
     if (collisionZones) {
-      for (const zone of collisionZones.x) {
-        if (
-          (this.x > zone.start && this.x < zone.end) ||
-          (this.xEnd > zone.start && this.xEnd < zone.end)
-        ) {
-          if (this.bouncing.x) {
-            // prevent rapidly switching directions during collision
-            return false;
-          }
-          this.bouncing.x = true;
-          this.collisionAxis = "x";
-          return true;
-        } else {
-          this.bouncing.x = false;
-        }
-      }
+      for (const zoneID in collisionZones) {
+        const zone = collisionZones[zoneID];
 
-      for (const zone of collisionZones.y) {
-        if (
-          (this.y > zone.start && this.y < zone.end) ||
-          (this.yEnd > zone.start && this.yEnd < zone.end)
-        ) {
-          if (this.bouncing.y) {
-            // prevent rapidly switching directions during collision
-            return false;
+        const xInRange =
+          (this.x >= zone.x.start && this.x <= zone.x.end) ||
+          (this.xEnd >= zone.x.start && this.xEnd <= zone.x.end);
+        const yInRange =
+          (this.y >= zone.y.start && this.y <= zone.y.end) ||
+          (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
+        // console.log(xInRange, yInRange);
+
+        if (xInRange && yInRange) {
+          if (xInRange) {
           }
-          this.bouncing.y = true;
-          this.collisionAxis = "y";
-          return true;
-        } else {
-          this.bouncing.y = false;
         }
+
+        // if (
+        //   ((this.x > zone.x.start && this.x < zone.x.end) ||
+        //     (this.xEnd > zone.x.start && this.xEnd < zone.x.end)) &&
+        //   ((this.y > zone.y.start && this.y < zone.y.end) ||
+        //     (this.yEnd > zone.y.start && this.yEnd < zone.y.end))
+        // ) {
+        //   if (this.bouncing) {
+        //     return false;
+        //   }
+        //   this.bouncing = true;
+        // }
       }
+      // for (const zone of collisionZones.y) {
+      //   if (
+      //     (this.y > zone.start && this.y < zone.end) ||
+      //     (this.yEnd > zone.start && this.yEnd < zone.end)
+      //   ) {
+      //     if (this.bouncing.y) {
+      //       // prevent rapidly switching directions during collision
+      //       return false;
+      //     }
+      //     this.bouncing.y = true;
+      //     this.collisionAxis = "y";
+      //     return true;
+      //   } else {
+      //     this.bouncing.y = false;
+      //   }
+      // }
     }
     return false;
   }
