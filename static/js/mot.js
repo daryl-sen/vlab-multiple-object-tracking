@@ -1,10 +1,13 @@
 const c1 = document.getElementById("object-layer").getContext("2d");
 const c2 = document.getElementById("overlay-layer").getContext("2d");
 
-const obj1 = new RectBlock(1, 100, 100, "#fff", 100, 50, { x: 3, y: 3 });
-const obj2 = new RectBlock(2, 100, 100, "#ff3939", 400, 200, { x: -3, y: -3 });
+const obj1 = new RectBlock(1, 55, 55, "#fff", 100, 50, { x: 2, y: 3 });
+const obj2 = new RectBlock(2, 55, 55, "red", 250, 200, { x: -1, y: -3 });
+const obj3 = new RectBlock(3, 55, 55, "green", 400, 200, { x: 3, y: -3 });
+const obj4 = new RectBlock(4, 55, 55, "blue", 550, 200, { x: 3, y: -3 });
+const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: 2, y: 1 });
 
-const onscreenObjects = [obj1, obj2];
+const onscreenObjects = [obj1, obj2, obj3, obj4, obj5];
 
 const animate = () => {
   OnscreenObj.clearAll(c1);
@@ -15,7 +18,6 @@ const animate = () => {
 
   // assign all coordinates before drawing, so collisions can be detected
   for (const obj of onscreenObjects) {
-    // obj.displayCoordinates(`obj${obj.id}-x`, `obj${obj.id}-y`);
     obj.translate(obj.velocity.x, obj.velocity.y);
     collisionZones[obj.id] = {
       x: { start: obj.x, end: obj.xEnd },
@@ -23,10 +25,8 @@ const animate = () => {
     };
   }
 
-  // console.log(collisionZones);
   // draw all coordinates
   for (const obj of onscreenObjects) {
-    // debugger;
     const exclusiveZones = { ...collisionZones };
     delete exclusiveZones[obj.id];
     if (obj.checkCollision(c1, exclusiveZones)) {

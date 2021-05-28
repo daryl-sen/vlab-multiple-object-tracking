@@ -90,7 +90,6 @@ class RectBlock extends OnscreenObj {
         const yInRange =
           (this.y >= zone.y.start && this.y <= zone.y.end) ||
           (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
-        // console.log(xInRange, yInRange);
 
         if (xInRange && yInRange) {
           // collision
