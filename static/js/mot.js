@@ -1,11 +1,41 @@
 const c1 = document.getElementById("object-layer").getContext("2d");
 const c2 = document.getElementById("overlay-layer").getContext("2d");
 
-const obj1 = new RectBlock(1, 55, 55, "#fff", 100, 50, { x: 2, y: 3 });
-const obj2 = new RectBlock(2, 55, 55, "red", 250, 200, { x: -1, y: -3 });
-const obj3 = new RectBlock(3, 55, 55, "green", 400, 200, { x: 3, y: -3 });
-const obj4 = new RectBlock(4, 55, 55, "blue", 550, 200, { x: 3, y: -3 });
-const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: 2, y: 1 });
+const config = {
+  showFixationCross: true,
+  fixationCrossWidth: 10,
+  fixationCrossLength: 30,
+  fixationCrossColor: "white",
+};
+
+if (config.showFixationCross) {
+  c2.lineWidth = config.fixationCrossWidth;
+  c2.strokeStyle = config.fixationCrossColor;
+  c2.beginPath();
+  c2.moveTo(
+    c2.canvas.width / 2,
+    c2.canvas.height / 2 - config.fixationCrossLength
+  );
+  c2.lineTo(
+    c2.canvas.width / 2,
+    c2.canvas.height / 2 + config.fixationCrossLength
+  );
+  c2.moveTo(
+    c2.canvas.width / 2 - config.fixationCrossLength,
+    c2.canvas.height / 2
+  );
+  c2.lineTo(
+    c2.canvas.width / 2 + config.fixationCrossLength,
+    c2.canvas.height / 2
+  );
+  c2.stroke();
+}
+
+const obj1 = new RectBlock(1, 55, 55, "#fff", 300, 50, { x: 3, y: 3 });
+const obj2 = new RectBlock(2, 55, 55, "red", 250, 200, { x: -1, y: -1 });
+const obj3 = new RectBlock(3, 55, 55, "green", 400, 200, { x: 3, y: -1 });
+const obj4 = new RectBlock(4, 55, 55, "blue", 550, 200, { x: 3, y: -1 });
+const obj5 = new RectBlock(5, 55, 55, "yellow", 700, 200, { x: 3, y: 3 });
 
 const onscreenObjects = [obj1, obj2, obj3, obj4, obj5];
 
