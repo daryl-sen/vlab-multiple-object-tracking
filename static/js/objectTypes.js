@@ -6,6 +6,7 @@ class OnscreenObj {
     this.color = color;
     this.x = xPos;
     this.y = yPos;
+    this.midPoint = { x: xPos + width / 2, y: yPos + height / 2 };
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
@@ -52,6 +53,13 @@ class OnscreenObj {
     const { width, height } = ctx.canvas;
     ctx.clearRect(0, 0, width, height);
   }
+
+  calculateBearing(targetCoords) {
+    return (
+      (Math.atan2(targetCoords.x - this.x, targetCoords.y - this.y) * 180) /
+      Math.PI
+    );
+  }
 }
 
 class RectBlock extends OnscreenObj {
@@ -64,6 +72,18 @@ class RectBlock extends OnscreenObj {
     }
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.restore();
+  }
+
+  determineDirection(targetCoords) {
+    // only needs vertical or horizontal
+    const bearing = Math.abs(this.calculateBearing(targetCoords));
+    if (bearing < 45 || (bearing > 135 && bearing <= 180)) {
+      return "x";
+    } else if (bearing > 45 && bearing < 135) {
+      return "y";
+    } else if (bearing === 45 || bearing === 135) {
+      return "both";
+    }
   }
 
   checkCollision(ctx, collisionZones) {
