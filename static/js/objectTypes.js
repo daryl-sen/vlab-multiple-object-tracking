@@ -57,7 +57,11 @@ class OnscreenObj {
 class RectBlock extends OnscreenObj {
   draw(ctx) {
     ctx.save();
-    ctx.fillStyle = this.color;
+    if (this.bouncing) {
+      ctx.fillStyle = "#393939";
+    } else {
+      ctx.fillStyle = this.color;
+    }
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.restore();
   }
@@ -99,7 +103,7 @@ class RectBlock extends OnscreenObj {
         } else {
           console.log("collision!");
 
-          if (zone.y.end >= this.y && zone.y <= this.yEnd) {
+          if (zone.y.end >= this.y || zone.y <= this.yEnd) {
             // if (this.id === 1) {
             //   console.log(
             //     "Horizontal collision with:",
@@ -109,7 +113,10 @@ class RectBlock extends OnscreenObj {
             //   );
             // }
             this.collisionAxis = "x";
-          } else if (zone.x.end >= this.x || zone.x <= this.xEnd) {
+            return true;
+          }
+
+          if (zone.x.end >= this.x || zone.x <= this.xEnd) {
             // if (this.id === 1) {
             //   console.log(
             //     "Vertical collision with:",
@@ -119,23 +126,12 @@ class RectBlock extends OnscreenObj {
             //   );
             // }
             this.collisionAxis = "y";
+            return true;
           }
-          return true;
         }
-
-        // const xInRange =
-        //   (this.x >= zone.x.start && this.x <= zone.x.end) ||
-        //   (this.xEnd >= zone.x.start && this.xEnd <= zone.x.end);
-        // const yInRange =
-        //   (this.y >= zone.y.start && this.y <= zone.y.end) ||
-        //   (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
-
-        // if (xInRange && yInRange) {
-        //   console.log("Collision!", this.id, zoneID);
-        //   return true;
-        // }
       }
     }
+    this.bouncing = false;
     return false;
   }
 }
