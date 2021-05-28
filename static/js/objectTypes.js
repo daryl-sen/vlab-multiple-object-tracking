@@ -36,9 +36,10 @@ class OnscreenObj {
   }
 
   reflectVelocity() {
-    if (this.collisionAxis) {
+    if (this.collisionAxis && !this.bouncing) {
       this.velocity[this.collisionAxis] = -this.velocity[this.collisionAxis];
       this.collisionAxis = null;
+      this.bouncing = true;
     }
   }
 
@@ -89,13 +90,35 @@ class RectBlock extends OnscreenObj {
 
         if (
           this.y > zone.y.end ||
-          this.xEnd < zone.x.start ||
           this.yEnd < zone.y.start ||
-          this.x > zone.x.end
+          this.x > zone.x.end ||
+          this.xEnd < zone.x.start
         ) {
+          // no collision
+          this.bouncing = false;
         } else {
-          if (this.id === 1) {
-            console.log("Collision with:", zoneID);
+          console.log("collision!");
+
+          if (zone.y.end >= this.y && zone.y <= this.yEnd) {
+            // if (this.id === 1) {
+            //   console.log(
+            //     "Horizontal collision with:",
+            //     zoneID,
+            //     "Bouncing:",
+            //     this.bouncing
+            //   );
+            // }
+            this.collisionAxis = "x";
+          } else if (zone.x.end >= this.x || zone.x <= this.xEnd) {
+            // if (this.id === 1) {
+            //   console.log(
+            //     "Vertical collision with:",
+            //     zoneID,
+            //     "Bouncing:",
+            //     this.bouncing
+            //   );
+            // }
+            this.collisionAxis = "y";
           }
           return true;
         }
