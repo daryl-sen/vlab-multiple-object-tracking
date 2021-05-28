@@ -9,7 +9,6 @@ class OnscreenObj {
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
-    this.axisOverlap = null;
     this.bouncing = false;
   }
 
@@ -92,20 +91,8 @@ class RectBlock extends OnscreenObj {
           (this.yEnd >= zone.y.start && this.yEnd <= zone.y.end);
 
         if (xInRange && yInRange) {
-          // collision
-          if (this.axisOverlap === "x") {
-            this.collisionAxis = "y";
-          } else {
-            this.collisionAxis = "x";
-          }
+          console.log("Collision!", this.id, zoneID);
           return true;
-        } else if (xInRange && !yInRange) {
-          // x overlap, but no collision
-          this.axisOverlap = "x";
-        } else if (!xInRange && yInRange) {
-          // y overlap, but no collision
-          this.axisOverlap = "y";
-        } else {
         }
       }
     }
