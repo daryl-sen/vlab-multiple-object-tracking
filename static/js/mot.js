@@ -9,15 +9,23 @@ const onscreenObjects = [obj2, obj1];
 const animate = () => {
   OnscreenObj.clearAll(c1);
   c1.save();
+
+  // record collision zones for object-object collision detection
+  const collisionZones = [];
+
+  // assign all coordinates before drawing, so collisions can be detected
   for (const obj of onscreenObjects) {
     if (obj.checkCollision(c1)) {
       obj.reflectVelocity();
     }
     obj.displayCoordinates(`obj${obj.id}-x`, `obj${obj.id}-y`);
     obj.translate(obj.velocity.x, obj.velocity.y);
-    obj.draw(c1);
   }
 
+  // draw all coordinates
+  for (const obj of onscreenObjects) {
+    obj.draw(c1);
+  }
   window.requestAnimationFrame(animate);
   c1.restore();
 };

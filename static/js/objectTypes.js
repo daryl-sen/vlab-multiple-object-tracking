@@ -6,6 +6,8 @@ class OnscreenObj {
     this.color = color;
     this.x = xPos;
     this.y = yPos;
+    this.xEnd = xPos + width;
+    this.yEnd = yPos + height;
     this.originalCoords = { x: xPos, y: yPos };
     this.velocity = velocity || { x: 0, y: 0 };
     this.collisionAxis = null;
