@@ -74,11 +74,12 @@ class OnscreenObj {
 class RectBlock extends OnscreenObj {
   draw(ctx) {
     ctx.save();
-    if (this.bouncing) {
-      ctx.fillStyle = "#393939";
-    } else {
-      ctx.fillStyle = this.color;
-    }
+    // if (this.bouncing) {
+    //   ctx.fillStyle = "#393939";
+    // } else {
+    //   ctx.fillStyle = this.color;
+    // }
+    ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.restore();
   }
