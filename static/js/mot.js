@@ -56,7 +56,7 @@ const animate = () => {
     };
   }
   // console.log(collisionZones);
-  debugger;
+  // debugger;
 
   // draw all coordinates
   for (const obj of onscreenObjects) {

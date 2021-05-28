@@ -23,3 +23,10 @@ canvas {
 #overlay-layer {
   /* background-color: green; */
 }
+
+#time-log {
+  position: fixed;
+  right: 0;
+  width: 300px;
+  border: 1px solid black;
+}
