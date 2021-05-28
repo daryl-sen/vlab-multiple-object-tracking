@@ -78,9 +78,9 @@ class RectBlock extends OnscreenObj {
     // only needs vertical or horizontal
     const bearing = Math.abs(this.calculateBearing(targetCoords));
     if (bearing < 45 || (bearing > 135 && bearing <= 180)) {
-      return "x";
-    } else if (bearing > 45 && bearing < 135) {
       return "y";
+    } else if (bearing > 45 && bearing < 135) {
+      return "x";
     } else if (bearing === 45 || bearing === 135) {
       return "both";
     }
@@ -121,33 +121,12 @@ class RectBlock extends OnscreenObj {
           // no collision
           this.bouncing = false;
         } else {
-          console.log("collision!");
-
-          if (zone.y.end >= this.y || zone.y <= this.yEnd) {
-            // if (this.id === 1) {
-            //   console.log(
-            //     "Horizontal collision with:",
-            //     zoneID,
-            //     "Bouncing:",
-            //     this.bouncing
-            //   );
-            // }
-            this.collisionAxis = "x";
-            return true;
-          }
-
-          if (zone.x.end >= this.x || zone.x <= this.xEnd) {
-            // if (this.id === 1) {
-            //   console.log(
-            //     "Vertical collision with:",
-            //     zoneID,
-            //     "Bouncing:",
-            //     this.bouncing
-            //   );
-            // }
-            this.collisionAxis = "y";
-            return true;
-          }
+          this.collisionAxis = this.determineDirection(zone.midPoint);
+          return true;
+          // if (this.id == 4) {
+          //   console.log("collision!");
+          //   console.log(this.determineDirection(zone.midPoint));
+          // }
         }
       }
     }

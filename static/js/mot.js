@@ -52,6 +52,7 @@ const animate = () => {
     collisionZones[obj.id] = {
       x: { start: obj.x, end: obj.xEnd },
       y: { start: obj.y, end: obj.yEnd },
+      midPoint: { ...obj.midPoint },
     };
   }
   // console.log(collisionZones);
