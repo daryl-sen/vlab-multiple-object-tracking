@@ -64,9 +64,9 @@ class OnscreenObj {
   }
 
   calculateBearing(targetCoords) {
+    const { x, y } = this.midPoint;
     const bearing =
-      (Math.atan2(targetCoords.x - this.x, targetCoords.y - this.y) * 180) /
-      Math.PI;
+      (Math.atan2(targetCoords.x - x, targetCoords.y - y) * 180) / Math.PI;
     return bearing;
   }
 }
@@ -88,13 +88,17 @@ class RectBlock extends OnscreenObj {
     const bearing = Math.abs(this.calculateBearing(targetCoords));
     if (this.id === 4) {
       console.log(bearing);
-      console.log(this.id, targetCoords, { x: this.x, y: this.y });
+      console.log(this.velocity);
+      console.log(this.id, targetCoords, this.midPoint);
     }
     if (bearing < 45 || (bearing > 135 && bearing <= 180)) {
+      console.log("y");
       return "y";
     } else if (bearing > 45 && bearing < 135) {
+      console.log("x");
       return "x";
     } else if (bearing === 45 || bearing === 135) {
+      console.log("both");
       return "both";
     }
   }
@@ -134,11 +138,10 @@ class RectBlock extends OnscreenObj {
           // no collision
           // this.bouncing = false;
         } else {
-          if (this.id == 1) {
-            console.log("collision!");
-            console.log(this.determineDirection(zone.midPoint));
-          }
           this.collisionAxis = this.determineDirection(zone.midPoint);
+          // if (this.id == 4) {
+          //   console.log(this.collisionAxis);
+          // }
           return true;
         }
       }
